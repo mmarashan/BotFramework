@@ -8,7 +8,7 @@ from bot_framework.model.message import InputMessage, OutputMessage
 from bot_framework.model.sea.action import BotApiAction, ReplyToAction, SendMessageAction
 from bot_framework.model.sea.event import NewMessage, StartChat
 from bot_framework.model.user import BotUser
-from telebot.types import Message, User
+from telebot.types import Message, User, ReplyKeyboardMarkup, KeyboardButton
 
 
 class TelegramBot(Bot):
@@ -25,13 +25,20 @@ class TelegramBot(Bot):
         if isinstance(action, ReplyToAction):
             input_message: InputMessage = action.received_message
             output_message: OutputMessage = action.output_message
+            reply_markup = self.__extract_reply_markup(output_message)
+
             self.__bot.send_message(chat_id=input_message.chat_id,
                                     text=output_message.text,
-                                    reply_to_message_id=input_message.id)
+                                    reply_to_message_id=input_message.id,
+                                    reply_markup=reply_markup)
+
         if isinstance(action, SendMessageAction):
             output_message: OutputMessage = action.output_message
+            reply_markup = self.__extract_reply_markup(output_message)
+
             self.__bot.send_message(chat_id=output_message.chat_id,
-                                    text=output_message.text)
+                                    text=output_message.text,
+                                    reply_markup=reply_markup)
 
     def launch(self):
 
@@ -71,3 +78,14 @@ class TelegramBot(Bot):
 
         self.__bot.set_update_listener(handle_messages)
         self.__bot.infinity_polling()
+
+    @staticmethod
+    def __extract_reply_markup(output_message: OutputMessage):
+        if len(output_message.answer_variances) > 0:
+            markup = ReplyKeyboardMarkup(row_width=1)
+            for answer_variance in output_message.answer_variances:
+                btn = KeyboardButton(answer_variance.text)
+                markup.add(btn, row_width=1)
+            return markup
+        else:
+            return None

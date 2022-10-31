@@ -1,7 +1,7 @@
 from typing import Union
 
 from bot_framework.bot_api_model import BotApiModel
-from bot_framework.model.message import InputMessage, OutputMessage
+from bot_framework.model.message import InputMessage, OutputMessage, AnswerVariance
 from bot_framework.model.sea.action import ReplyToAction, SendMessageAction
 from bot_framework.model.user import BotUser
 
@@ -14,7 +14,8 @@ class ZKHBotApiModelImpl(BotApiModel):
                 output_message=OutputMessage(
                     text="Hi, " + user.first_name,
                     chat_id=chat_id,
-                    to_user=user
+                    to_user=user,
+                    answer_variances=[AnswerVariance("a"), AnswerVariance("b"), AnswerVariance("c")]
                 )
             )
         )
@@ -25,7 +26,8 @@ class ZKHBotApiModelImpl(BotApiModel):
                                  output_message=OutputMessage(
                                      text=message.text,
                                      chat_id=message.chat_id,
-                                     to_user=message.from_user
+                                     to_user=message.from_user,
+                                     answer_variances=[AnswerVariance("a"), AnswerVariance("b"), AnswerVariance("c")]
                                  )
                                  )
         )
