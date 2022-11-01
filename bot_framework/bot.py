@@ -4,7 +4,7 @@ from mailbox import Message
 from bot_framework.bot_action_performer import BotActionPerformer
 from bot_framework.model.sea.action import BotAction
 from bot_framework.model.sea.event import BotEvent
-from zkhbotapp.api.zkh_bot_api_model import BotModel
+from zkhbotapp.api.zkh_bot_model import BotModel
 
 
 class Bot(ABC):
