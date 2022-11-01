@@ -3,9 +3,9 @@ from typing import List
 import telebot
 
 from bot_framework.bot import Bot
-from bot_framework.bot_api_model import BotApiModel
+from bot_framework.bot_model import BotModel
 from bot_framework.model.message import InputMessage, OutputMessage
-from bot_framework.model.sea.action import BotApiAction, ReplyToAction, SendMessageAction
+from bot_framework.model.sea.action import BotAction, ReplyToAction, SendMessageAction
 from bot_framework.model.sea.event import NewMessage, StartChat
 from bot_framework.model.user import BotUser
 from telebot.types import Message, User, ReplyKeyboardMarkup, KeyboardButton
@@ -17,11 +17,11 @@ class TelegramBot(Bot):
     """
     __bot: telebot.TeleBot = None
 
-    def __init__(self, token: str, bot_api_model: BotApiModel):
+    def __init__(self, token: str, bot_model: BotModel):
         self.__bot = telebot.TeleBot(token=token, parse_mode=None)
-        super().__init__(bot_api_model=bot_api_model)
+        super().__init__(bot_model=bot_model)
 
-    def perform(self, action: BotApiAction):
+    def perform(self, action: BotAction):
         if isinstance(action, ReplyToAction):
             input_message: InputMessage = action.received_message
             output_message: OutputMessage = action.output_message

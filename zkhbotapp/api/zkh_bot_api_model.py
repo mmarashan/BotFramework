@@ -1,12 +1,12 @@
 from typing import Union
 
-from bot_framework.bot_api_model import BotApiModel
+from bot_framework.bot_model import BotModel
 from bot_framework.model.message import InputMessage, OutputMessage, AnswerVariance
 from bot_framework.model.sea.action import ReplyToAction, SendMessageAction
 from bot_framework.model.user import BotUser
 
 
-class ZKHBotApiModelImpl(BotApiModel):
+class ZKHBotModelImpl(BotModel):
 
     def _on_start_chat(self, chat_id: Union[int, str], user: BotUser):
         self._perform_action(
